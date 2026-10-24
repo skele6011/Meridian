@@ -1,7 +1,9 @@
 #include "Game.hpp"
 #include <SDL.h>
 
-Game::Game() : m_window("Meridian", 1920, 1080), m_is_running(true) {}
+Game::Game()
+    : m_window("Meridian", 1920, 1080),
+      m_current_level(std::make_unique<Level1>()), m_is_running(true) {}
 
 void Game::run() {
   if (!m_window.isOpen()) {
@@ -20,7 +22,7 @@ void Game::run() {
     m_window.handleWindowEvents();
     m_input.update();
 
-    if (m_input.isPressed(SDL_SCANCODE_ESCAPE)) {
+    if (m_input.isHeld(SDL_SCANCODE_ESCAPE)) {
       // TODO Make a confirmation screen
       m_is_running = false;
     }
@@ -40,14 +42,19 @@ void Game::run() {
     // 3. Fixed-timestep updates (120 Hz)
     while (accumulator >= FIXED_DT) {
       // TODO: Update game logic / active level here using FIXED_DT
+      if (m_current_level) {
+        m_current_level->update(FIXED_DT, m_input);
+      }
       accumulator -= FIXED_DT;
     }
 
     // 4. Render
     m_window.clear();
-
+    if (m_current_level) {
+      m_current_level->render(m_window);
+    }
     // TODO: Render active level here
 
-    m_window.render();
+    m_window.present();
   }
 }

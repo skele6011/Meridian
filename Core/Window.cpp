@@ -46,7 +46,7 @@ void Window::clear() {
   SDL_RenderClear(m_renderer);
 }
 
-void Window::render() { SDL_RenderPresent(m_renderer); }
+void Window::present() { SDL_RenderPresent(m_renderer); }
 
 bool Window::handleWindowEvents() {
   SDL_Event event;
