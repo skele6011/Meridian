@@ -28,6 +28,7 @@ add_executable(Meridian
     main.cpp
     Core/Window.cpp
     Core/Input.cpp
+    Core/Game.cpp
 )
 
 # [Must understand] - Links the automatically downloaded SDL2 library to your game

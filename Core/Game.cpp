@@ -1,7 +1,7 @@
 #include "Game.hpp"
 #include <SDL.h>
 
-Game::Game() : m_window("Meridian", 1280, 720), m_is_running(true) {}
+Game::Game() : m_window("Meridian", 1920, 1080), m_is_running(true) {}
 
 void Game::run() {
   if (!m_window.isOpen()) {
