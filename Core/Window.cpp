@@ -52,6 +52,7 @@ bool Window::handleWindowEvents() {
   SDL_Event event;
   while (SDL_PollEvent(&event)) {
     if (event.type == SDL_QUIT) {
+      m_is_open = false;
       return false; // Tells the game loop the window is closing
     }
   }
