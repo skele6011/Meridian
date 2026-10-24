@@ -19,6 +19,7 @@ public:
 
   int getWidth() const { return m_width; }
   int getHeight() const { return m_height; }
+  SDL_Renderer* getRenderer() const { return m_renderer; }
 
 private:
   SDL_Window* m_window = nullptr;
