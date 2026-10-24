@@ -15,6 +15,7 @@ public:
   bool isOpen() const { return m_is_open; }
   void clear();
   void render();
+  bool handleWindowEvents(); // Return false if "X" is clicked
 
   int getWidth() const { return m_width; }
   int getHeight() const { return m_height; }

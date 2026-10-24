@@ -1,5 +1,5 @@
 ## 1: Basics
 - [x] Cross-platform CMake build setup
-- [ ] Window management module (Window.cpp/hpp)
-- [ ] Input manager (raw state tracking)
+- [x] Window management module (Window.cpp/hpp)
+- [x] Input manager (raw state tracking)
 - [ ] Fixed-timestep game loop & delta time management

@@ -26,6 +26,8 @@ FetchContent_MakeAvailable(SDL2)
 # [Must understand] - Defines your executable and lists your source files
 add_executable(Meridian 
     main.cpp
+    Core/Window.cpp
+    Core/Input.cpp
 )
 
 # [Must understand] - Links the automatically downloaded SDL2 library to your game

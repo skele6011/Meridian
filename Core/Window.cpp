@@ -47,3 +47,13 @@ void Window::clear() {
 }
 
 void Window::render() { SDL_RenderPresent(m_renderer); }
+
+bool Window::handleWindowEvents() {
+  SDL_Event event;
+  while (SDL_PollEvent(&event)) {
+    if (event.type == SDL_QUIT) {
+      return false; // Tells the game loop the window is closing
+    }
+  }
+  return true;
+}
