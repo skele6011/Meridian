@@ -5,11 +5,11 @@
 - [x] Fixed-timestep game loop & delta time management
 
 ## 2: Levels & Entities
-- [ ] **Step 1: The `Level` Base Class / Interface**
+- [x] **Step 1: The `Level` Base Class / Interface**
   - Define a clean interface (`virtual void update(double dt, const Input& input) = 0;` and `virtual void render(Window& window) = 0;`).
   - Let `Game` hold a pointer to the active `Level`.
 
-- [ ] **Step 2: A Test Level (`Level1`)**
+- [x] **Step 2: A Test Level (`Level1`)**
   - Create a concrete level implementation.
   - Spin up a basic player entity (even if it's just a colored rectangle for now) to test movement and input.
 
