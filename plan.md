@@ -28,7 +28,7 @@
   - Implement texture loading functions using `IMG_Load` and `SDL_CreateTextureFromSurface`.
   - Build a lightweight wrapper around `SDL_Texture*` to manage resource lifetimes cleanly.
 
-- [ ] **Step 3: Sprite Rendering Upgrade**
+- [x] **Step 3: Sprite Rendering Upgrade**
   - Upgrade the rendering pipeline from primitive shapes (`SDL_RenderFillRect`) to full textures (`SDL_RenderCopy`).
   - Verify asset loading and rendering end-to-end with a temporary test sprite.
 
