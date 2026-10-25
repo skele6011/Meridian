@@ -16,6 +16,6 @@
 - [x] **Step 3: Basic AABB Collision & Physics**
   - Implement simple box collisions so our player can stand on a platform instead of falling forever into the void.
 
-- [ ] **Step 4: Integrating Fixed Timestep with Physics**
+- [x] **Step 4: Integrating Fixed Timestep with Physics**
   - Wire our `120Hz` fixed delta time (`FIXED_DT`) directly into the player's movement math so it's completely deterministic.
 
