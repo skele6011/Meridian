@@ -21,7 +21,7 @@ public:
   void free();
 
   // Centralized render function (handles frame clipping)
-  void render(SDL_Renderer* rednerer, int x, int y,
+  void render(SDL_Renderer* renderer, int x, int y,
               const SDL_Rect* src_rect = nullptr, float scale = 1.0f) const;
 
   int getWidth() const { return m_width; }
