@@ -1,9 +1,11 @@
 #include "Level.hpp"
 #include "SDL_render.h"
+#include <iostream>
 
 // Everything here is everything that should be in EVERY level, if loading
 // images for other levels, do that in those specific levels.
 void Level::loadBaseAssets(SDL_Renderer* renderer) {
+  std::cout << "Loading base assets..." << std::endl;
   m_player_texture.loadFromFile("../assets/Player-Sheet.png", renderer);
 };
 
@@ -61,7 +63,9 @@ void Level::render(Window& window) {
   SDL_RenderClear(window.getRenderer());
 
   // Player
-  SDL_Rect player_src_rect = {0, 0, 16, 16};
+  std::cout << "Rendering player at X: " << m_player.x << " Y: " << m_player.y
+            << std::endl;
+  SDL_Rect player_src_rect = {24, 0, 16, 16}; // Tries the second 16x16 frame
   m_player_texture.render(window.getRenderer(), static_cast<int>(m_player.x),
-                          static_cast<int>(m_player.y), &player_src_rect, 2.0);
+                          static_cast<int>(m_player.y), &player_src_rect, 7.5);
 }

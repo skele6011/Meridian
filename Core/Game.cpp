@@ -3,7 +3,13 @@
 
 Game::Game()
     : m_window("Meridian", 1920, 1080),
-      m_current_level(std::make_unique<Level1>()), m_is_running(true) {}
+      m_current_level(std::make_unique<Level1>()), m_is_running(true) {
+
+  // Call base assets loading here so renderer is available
+  if (m_current_level) {
+    m_current_level->loadBaseAssets(m_window.getRenderer());
+  }
+}
 
 void Game::run() {
   if (!m_window.isOpen()) {
