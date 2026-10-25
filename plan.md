@@ -19,3 +19,26 @@
 - [x] **Step 4: Integrating Fixed Timestep with Physics**
   - Wire our `120Hz` fixed delta time (`FIXED_DT`) directly into the player's movement math so it's completely deterministic.
 
+## 3: Art & Texture Pipeline
+- [ ] **Step 1: Integrate `SDL_image`**
+  - Add and link the `SDL_image` library into the CMake build setup.
+  - Ensure external image loading dependencies compile cleanly across targets.
+
+- [ ] **Step 2: Texture Loading and Management**
+  - Implement texture loading functions using `IMG_Load` and `SDL_CreateTextureFromSurface`.
+  - Build a lightweight wrapper around `SDL_Texture*` to manage resource lifetimes cleanly.
+
+- [ ] **Step 3: Sprite Rendering Upgrade**
+  - Upgrade the rendering pipeline from primitive shapes (`SDL_RenderFillRect`) to full textures (`SDL_RenderCopy`).
+  - Verify asset loading and rendering end-to-end with a temporary test sprite.
+
+## 4: Map Loading & Architecture Refactoring (Post-Art)
+- [ ] **Step 1: Map Editor Format Selection**
+  - Choose and configure an external map format (such as Tiled JSON or CSV exports) for level creation.
+  - Establish final tile and sprite dimensions.
+
+- [ ] **Step 2: Level Map Parser Implementation**
+  - Implement a map parsing utility to read layout data and dynamically generate collision solids (`m_solids`).
+
+- [ ] **Step 3: Dedicated Player Class Refactor**
+  - Extract player state, dimensions, and movement variables into a dedicated `Player` class now that final art assets and sizes are established.
