@@ -65,7 +65,16 @@ void Level::render(Window& window) {
   // Player
   std::cout << "Rendering player at X: " << m_player.x << " Y: " << m_player.y
             << std::endl;
-  SDL_Rect player_src_rect = {24, 0, 16, 16}; // Tries the second 16x16 frame
+
+  // For our test guy, 8x16 each frame, first frame starts at 28 and ends at 36
+  SDL_Rect player_src_rect = {28, 0, 8, 16};
+
+  double scale = 5.0;
+
+  m_player.width = 8 * scale;
+  m_player.height = 16 * scale;
+
   m_player_texture.render(window.getRenderer(), static_cast<int>(m_player.x),
-                          static_cast<int>(m_player.y), &player_src_rect, 7.5);
+                          static_cast<int>(m_player.y), &player_src_rect,
+                          scale);
 }
