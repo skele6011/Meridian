@@ -20,11 +20,11 @@
   - Wire our `120Hz` fixed delta time (`FIXED_DT`) directly into the player's movement math so it's completely deterministic.
 
 ## 3: Art & Texture Pipeline
-- [ ] **Step 1: Integrate `SDL_image`**
+- [x] **Step 1: Integrate `SDL_image`**
   - Add and link the `SDL_image` library into the CMake build setup.
   - Ensure external image loading dependencies compile cleanly across targets.
 
-- [ ] **Step 2: Texture Loading and Management**
+- [x] **Step 2: Texture Loading and Management**
   - Implement texture loading functions using `IMG_Load` and `SDL_CreateTextureFromSurface`.
   - Build a lightweight wrapper around `SDL_Texture*` to manage resource lifetimes cleanly.
 
