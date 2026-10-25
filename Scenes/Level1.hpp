@@ -1,7 +1,8 @@
 #pragma once
 
+#include "../Core/Rect.hpp"
 #include "Level.hpp"
-
+#include <vector>
 class Level1 : public Level {
 public:
   Level1();
@@ -12,9 +13,9 @@ public:
 
 private:
   // Simple test player properties
-  float m_player_x;
-  float m_player_y;
-  float m_player_width;
-  float m_player_height;
-  float m_player_speed;
+  Rect m_player;
+  float m_vel_x;
+  float m_vel_y;
+
+  std::vector<Rect> m_solids;
 };
