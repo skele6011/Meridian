@@ -16,12 +16,21 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON) # Forces the line above by failing rather th
 # so it works identically on Linux, Windows, and macOS without needing system-wide installers.
 include(FetchContent)
 
+# SDL2 Core
 FetchContent_Declare(
     SDL2
     GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
     GIT_TAG        release-2.30.0
 )
 FetchContent_MakeAvailable(SDL2)
+
+# SDL2_image Extension
+FetchContent_Declare(
+  SDL2_image
+  GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git 
+  GIT_TAG release-2.8.2
+)
+FetchContent_MakeAvailable(SDL2_image)
 
 # [Must understand] - Defines your executable and lists your source files
 add_executable(Meridian 
@@ -35,4 +44,8 @@ add_executable(Meridian
 )
 
 # [Must understand] - Links the automatically downloaded SDL2 library to your game
-target_link_libraries(Meridian PRIVATE SDL2::SDL2)
+target_link_libraries(Meridian PRIVATE 
+  SDL2::SDL2
+  SDL2::SDL2main 
+  SDL2_image::SDL2_image
+)
