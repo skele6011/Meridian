@@ -1,4 +1,5 @@
 #include "Input.hpp"
+#include "SDL_events.h"
 
 Input::Input() {
   std::memset(m_current_keys, 0, sizeof(m_current_keys));
@@ -8,6 +9,9 @@ Input::Input() {
 void Input::update() {
   // 1. Copy current state to previous state before updating
   std::memcpy(m_previous_keys, m_current_keys, sizeof(m_current_keys));
+
+  // Force SDL to poll OS window events and update keyboard state
+  SDL_PumpEvents();
 
   // 2. Fetch the fresh keyboard state directly from SDL
   int numkeys;

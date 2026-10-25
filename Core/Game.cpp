@@ -18,16 +18,8 @@ void Game::run() {
   double frequency = static_cast<double>(SDL_GetPerformanceFrequency());
 
   while (m_window.isOpen() && m_is_running) {
-    // 1. Handle OS window events & input
-    m_window.handleWindowEvents();
-    m_input.update();
 
-    if (m_input.isHeld(SDL_SCANCODE_ESCAPE)) {
-      // TODO Make a confirmation screen
-      m_is_running = false;
-    }
-
-    // 2. Delta time calculation
+    // 1. Delta time calculation
     Uint64 current_counter = SDL_GetPerformanceCounter();
     double frame_time =
         static_cast<double>(current_counter - last_counter) / frequency;
@@ -39,8 +31,17 @@ void Game::run() {
 
     accumulator += frame_time;
 
-    // 3. Fixed-timestep updates (120 Hz)
+    // 2. Fixed-timestep updates (120 Hz)
     while (accumulator >= FIXED_DT) {
+      // 3. Handle OS window events & input
+      m_window.handleWindowEvents();
+      m_input.update();
+
+      if (m_input.isHeld(SDL_SCANCODE_ESCAPE)) {
+        // TODO Make a confirmation screen
+        m_is_running = false;
+      }
+
       // TODO: Update game logic / active level here using FIXED_DT
       if (m_current_level) {
         m_current_level->update(FIXED_DT, m_input);
