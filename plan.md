@@ -13,7 +13,7 @@
   - Create a concrete level implementation.
   - Spin up a basic player entity (even if it's just a colored rectangle for now) to test movement and input.
 
-- [ ] **Step 3: Basic AABB Collision & Physics**
+- [x] **Step 3: Basic AABB Collision & Physics**
   - Implement simple box collisions so our player can stand on a platform instead of falling forever into the void.
 
 - [ ] **Step 4: Integrating Fixed Timestep with Physics**
