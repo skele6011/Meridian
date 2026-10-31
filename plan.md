@@ -40,7 +40,7 @@
 - [ ] **Step 2: Level Map Parser Implementation**
   - Implement a map parsing utility to read layout data and dynamically generate collision solids (`m_solids`).
 
-- [ ] **Step 3: Dedicated Player Class Refactor**
+- [x] **Step 3: Dedicated Player Class Refactor**
   - Extract player state, dimensions, and movement variables into a dedicated `Player` class now that final art assets and sizes are established.
 
 ## 5: Sprite Animations & States
@@ -49,6 +49,7 @@
 
 - [ ] **Step 2: Sheet Index Math & Cropping**
   - Automate horizontal/vertical source rect calculations based on the 8x16 grid offset (`X = 28 + (frame_index * 8)`).
+  - This will be changed later in terms of exact numbers once we decide on an exact sprite to use.
 
 - [ ] **Step 3: State Machine Integration**
   - Link player movement states (Idle, Running, Jumping, Falling) to trigger the correct animation

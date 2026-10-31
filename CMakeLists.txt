@@ -43,6 +43,7 @@ add_executable(Meridian
     Core/Rect.hpp
     Graphics/Texture.cpp
     Scenes/Level.cpp
+    Entities/Player.cpp
 )
 
 # [Must understand] - Links the automatically downloaded SDL2 library to your game

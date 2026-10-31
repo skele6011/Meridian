@@ -3,6 +3,7 @@
 #include "../Core/Input.hpp"
 #include "../Core/Rect.hpp"
 #include "../Core/Window.hpp"
+#include "../Entities/Player.hpp"
 #include "../Graphics/Texture.hpp"
 
 #include <vector>
@@ -28,9 +29,7 @@ public:
 
 protected:
   // Shared player & physics state
-  Rect m_player{100.0f, 100.0f, 24.0f, 36.0f};
-  float m_vel_x = 0.0f;
-  float m_vel_y = 0.0f;
+  Player m_player{100.0f, 100.0f, 8.0f, 16.0f};
 
   // Shared level geometry & triggers (pushed by individual levels)
   std::vector<Rect> m_solids;
