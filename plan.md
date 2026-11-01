@@ -53,3 +53,28 @@
 
 - [x] **Step 3: State Machine Integration**
   - Link player movement states (Idle, Running, Jumping, Falling) to trigger the correct animation
+
+## 6: Time Rewind Prototype (Snapshots)
+- [ ] **Step 1: Split Animation into config vs. progress**
+  - Add an `Animation::State { frame, tick, finished }` struct.
+  - Add `getState()` and `setState()` so the animation’s progress can be saved and loaded without copying the whole object.
+  - Give the member ints default values while you’re in there.
+- [ ] **Step 2: PlayerSnapshot + save/restore**
+  - Define `PlayerSnapshot` holding bounds, `vx, vy`, grounded, facing, current and previous state, and the active animation’s State.
+  - Implement `Player::save()` and `Player::restore()`.
+  - Restore both state and prev_state, otherwise `changeState` resets the animation on the next tick.
+- [ ] **Step 3: History buffer in Level**
+  - Add a `std::deque<PlayerSnapshot>` (or a fixed ring buffer) to Level.
+  - Push one snapshot per fixed tick, before `m_player.update`.
+  - Cap the length (`e.g. 120 x 10 ticks = 10 seconds`) and drop the oldest.
+- [ ] **Step 4: Rewind input**
+  - While R is held and the buffer isn’t empty: pop the newest snapshot, restore it, and skip the normal update.
+  - When the buffer runs out, rewinding just stops. Decide whether the player keeps control or stays frozen.
+  - On release, normal simulation resumes from the restored state.
+- [ ] **Step 5: Test the feel**
+  - Try different rewind speeds (1 snapshot per tick is real-time, 2 is double speed).
+  - Add a temporary visual cue (tint, or draw the buffer length) so you can tell it’s working.
+  - Decide whether this is the mechanic you want before building more on it.
+- [ ] **Step 6 (later): Generalize**
+  - Once moving platforms or enemies exist, give them the same `save()/restore()` pair, and have Level snapshot everything together as one world snapshot.
+  - Rewinding the world is then the same loop, applied to more things.
