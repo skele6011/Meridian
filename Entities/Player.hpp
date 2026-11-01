@@ -1,11 +1,15 @@
 #pragma once
 #include <SDL.h>
+#include <unordered_map>
 #include <vector>
 
 #include "../Core/Input.hpp"
 #include "../Core/Rect.hpp"
 #include "../Core/Window.hpp"
+#include "../Graphics/Animation.hpp"
 #include "../Graphics/Texture.hpp"
+
+enum class PlayerState { Idle, Running, Jumping, Falling };
 
 class Player {
 public:
@@ -36,6 +40,13 @@ private:
   bool m_is_grounded;
   // Might add things for wall sliding here later
 
-  // Internal collision helper
-  void handleCollisions(const std::vector<Rect>& solids);
+  // State & Animation management
+  PlayerState m_current_state;
+  PlayerState m_previous_state;
+  bool m_facing_right;
+  // Animation collectionf or each state
+  std::unordered_map<PlayerState, Animation> m_animations;
+
+  // Helper method to switch states and reset animation frames
+  void changeState(PlayerState new_state);
 };

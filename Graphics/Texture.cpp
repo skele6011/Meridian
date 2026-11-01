@@ -80,3 +80,23 @@ void Texture::render(SDL_Renderer* renderer, int x, int y,
 
   SDL_RenderCopy(renderer, m_texture, src_rect, &dst_rect);
 }
+
+void Texture::renderEx(SDL_Renderer* renderer, int x, int y,
+                       const SDL_Rect* src_rect, float scale,
+                       SDL_RendererFlip flip) const {
+
+  SDL_Rect dst_rect = {x, y, m_width, m_height};
+
+  if (src_rect != nullptr) {
+    dst_rect.w = src_rect->w;
+    dst_rect.h = src_rect->h;
+  }
+
+  // Apply global or per-sprite scale factor cleanly in one place
+  dst_rect.w = static_cast<int>(dst_rect.w * scale);
+  dst_rect.h = static_cast<int>(dst_rect.h * scale);
+
+  // Angle = 0.0, center = nullptr
+  SDL_RenderCopyEx(renderer, m_texture, src_rect, &dst_rect, 0.0, nullptr,
+                   flip);
+}

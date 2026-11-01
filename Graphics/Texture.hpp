@@ -25,6 +25,11 @@ public:
   void render(SDL_Renderer* renderer, int x, int y,
               const SDL_Rect* src_rect = nullptr, float scale = 1.0f) const;
 
+  // Extended render function supporting flipping and rotation
+  void renderEx(SDL_Renderer* renderer, int x, int y,
+                const SDL_Rect* src_rect = nullptr, float scale = 1.0f,
+                SDL_RendererFlip flip = SDL_FLIP_NONE) const;
+
   int getWidth() const { return m_width; }
   int getHeight() const { return m_height; }
 

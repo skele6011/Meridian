@@ -1,12 +1,33 @@
 #include "Player.hpp"
+#include "SDL_render.h"
 #include "SDL_scancode.h"
 
 Player::Player(float start_x, float start_y, float width, float height)
     : m_bounds{start_x, start_y, width, height}, m_vx(0.0f), m_vy(0.0f),
-      m_frame_width(8), m_frame_height(16), m_scale(5.0f),
-      m_is_grounded(false) {
+      m_frame_width(8), m_frame_height(16), m_scale(5.0f), m_is_grounded(false),
+      m_current_state(PlayerState::Idle), m_previous_state(PlayerState::Idle),
+      m_facing_right(true) {
+  // Scale up physical bounds
   m_bounds.width = m_bounds.width * m_scale;
   m_bounds.height = m_bounds.height * m_scale;
+
+  // Initialize state animations. It's weird right now, changes with a stable
+  // sprite which is yet to exist
+  // Idle: 4 frames, 64x16 cells starting at the sheet's left edge
+  m_animations[PlayerState::Idle] =
+      Animation(0, 0, 64, 16, 4, 10, true, SheetLayout::Horizontal);
+
+  // Running: 4 frames
+  m_animations[PlayerState::Running] =
+      Animation(256, 0, 64, 16, 4, 6, true, SheetLayout::Horizontal);
+
+  // Jumping: single frame
+  m_animations[PlayerState::Jumping] =
+      Animation(512, 0, 64, 16, 1, 10, false, SheetLayout::Horizontal);
+
+  // Falling: 2 frames (see note below)
+  m_animations[PlayerState::Falling] =
+      Animation(576, 0, 64, 16, 2, 8, false, SheetLayout::Horizontal);
 }
 
 void Player::update(double dt, const Input& input,
@@ -19,9 +40,11 @@ void Player::update(double dt, const Input& input,
 
   if (input.isHeld(SDL_SCANCODE_A)) {
     m_vx = -move_speed;
+    m_facing_right = false;
   }
   if (input.isHeld(SDL_SCANCODE_D)) {
     m_vx = move_speed;
+    m_facing_right = true;
   }
 
   // 2. Handle jump input (Should add buffer time)
@@ -62,14 +85,58 @@ void Player::update(double dt, const Input& input,
       }
     }
   }
+
+  // 6. Determine animation state based on movement & grounded flags
+  PlayerState target_state = PlayerState::Idle;
+  if (!m_is_grounded) {
+    target_state = (m_vy < 0.0f) ? PlayerState::Jumping : PlayerState::Falling;
+  } else if (m_vx != 0.0f) {
+    target_state = PlayerState::Running;
+  } else {
+    target_state = PlayerState::Idle;
+  }
+
+  // Apply state change
+  changeState(target_state);
+
+  // 7. Advance animation tick counter
+  m_animations[m_current_state].update();
 }
 
 void Player::render(Window& window, Texture& spriteSheet) {
-  // Hardcoded for now (8x16 starting at x = 28)
-  SDL_Rect player_src_rect = {28, 0, m_frame_width, m_frame_height};
+  // Grab source rect from active animation
+  SDL_Rect player_src_rect =
+      m_animations[m_current_state].getCurrentFrameRect();
 
-  spriteSheet.render(window.getRenderer(), static_cast<int>(m_bounds.x),
-                     static_cast<int>(m_bounds.y), &player_src_rect, m_scale);
+  SDL_RendererFlip flip = m_facing_right ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
+
+  // Our cell isn't aligned with our character, and our character is drawn in
+  // the middle of the cell
+  int padding_x =
+      static_cast<int>(((player_src_rect.w - m_frame_width) / 2.0f) * m_scale);
+  int padding_y =
+      static_cast<int>(((player_src_rect.h - m_frame_height) / 2.0f) * m_scale);
+
+  spriteSheet.renderEx(window.getRenderer(),
+                       static_cast<int>(m_bounds.x) - padding_x,
+                       static_cast<int>(m_bounds.y) - padding_y,
+                       &player_src_rect, m_scale, flip);
+
+  // Hitbox stuff
+  SDL_SetRenderDrawColor(window.getRenderer(), 255, 0, 0, 255);
+  SDL_Rect hb{(int)m_bounds.x, (int)m_bounds.y, (int)m_bounds.width,
+              (int)m_bounds.height};
+  SDL_RenderDrawRect(window.getRenderer(), &hb);
+}
+
+void Player::changeState(PlayerState new_state) {
+  m_current_state = new_state;
+
+  // Reset the frame counter if transitioning into a new state
+  if (m_current_state != m_previous_state) {
+    m_animations[m_current_state].reset();
+    m_previous_state = m_current_state;
+  }
 }
 
 Rect Player::getBoundingBox() const { return m_bounds; }
