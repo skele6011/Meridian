@@ -11,6 +11,17 @@
 
 enum class PlayerState { Idle, Running, Jumping, Falling };
 
+struct PlayerSnapshot {
+  Rect bounds;
+  float vx;
+  float vy;
+  bool is_grounded;
+  bool facing_right;
+  PlayerState current_state;
+  PlayerState previous_state;
+  Animation::State animation_state;
+};
+
 class Player {
 public:
   Player(float start_x, float start_y, float width, float height);
@@ -24,6 +35,10 @@ public:
   Rect getBoundingBox() const;
   float getX() const { return m_bounds.x; }
   float getY() const { return m_bounds.y; }
+
+  // For time rewinding
+  PlayerSnapshot save() const;
+  void restore(const PlayerSnapshot& snapshot);
 
 private:
   // Position and velocity

@@ -49,7 +49,7 @@ void Player::update(double dt, const Input& input,
 
   // 2. Handle jump input (Should add buffer time)
   if (input.isPressed(SDL_SCANCODE_W) && m_is_grounded) {
-    m_vy = -500.0f;
+    m_vy = -1000.0f;
     m_is_grounded = false;
   }
 
@@ -137,6 +137,37 @@ void Player::changeState(PlayerState new_state) {
     m_animations[m_current_state].reset();
     m_previous_state = m_current_state;
   }
+}
+
+PlayerSnapshot Player::save() const {
+  PlayerSnapshot snapshot;
+  snapshot.bounds = m_bounds;
+  snapshot.vx = m_vx;
+  snapshot.vy = m_vy;
+  snapshot.is_grounded = m_is_grounded;
+  snapshot.facing_right = m_facing_right;
+  snapshot.current_state = m_current_state;
+  snapshot.previous_state = m_previous_state;
+
+  // Save the active animation's exact progress state
+  snapshot.animation_state = m_animations.at(m_current_state).getState();
+
+  return snapshot;
+}
+
+void Player::restore(const PlayerSnapshot& snapshot) {
+  m_bounds = snapshot.bounds;
+  m_vx = snapshot.vx;
+  m_vy = snapshot.vy;
+  m_is_grounded = snapshot.is_grounded;
+  m_facing_right = snapshot.facing_right;
+
+  // Restore both states first so changeState's equality check passes cleanly
+  m_current_state = snapshot.current_state;
+  m_previous_state = snapshot.previous_state;
+
+  // Restore the active animation's frame/tick progress
+  m_animations.at(m_current_state).setState(snapshot.animation_state);
 }
 
 Rect Player::getBoundingBox() const { return m_bounds; }

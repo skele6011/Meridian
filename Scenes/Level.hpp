@@ -6,6 +6,7 @@
 #include "../Entities/Player.hpp"
 #include "../Graphics/Texture.hpp"
 
+#include <deque>
 #include <vector>
 
 // For later
@@ -30,6 +31,11 @@ public:
 protected:
   // Shared player & physics state
   Player m_player{100.0f, 100.0f, 8.0f, 16.0f};
+
+  // Time rewind history buffer
+  std::deque<PlayerSnapshot> m_player_history;
+  const size_t m_max_history_size =
+      1200; // ~10 seconds at 120 ticks/sec  TODO: Make it work with any FPS
 
   // Shared level geometry & triggers (pushed by individual levels)
   std::vector<Rect> m_solids;

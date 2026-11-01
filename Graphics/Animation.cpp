@@ -53,3 +53,13 @@ SDL_Rect Animation::getCurrentFrameRect() const {
 }
 
 bool Animation::isFinished() const { return m_is_finished; }
+
+Animation::State Animation::getState() const {
+  return {m_current_frame, m_tick_counter, m_is_finished};
+}
+
+void Animation::setState(const State& state) {
+  m_current_frame = state.current_frame;
+  m_tick_counter = state.tick_counter;
+  m_is_finished = state.is_finished;
+}

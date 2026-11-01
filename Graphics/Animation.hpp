@@ -10,6 +10,13 @@ enum class SheetLayout {
 
 class Animation {
 public:
+  // Dynamic progress state that can be saved/restored for rewinding
+  struct State {
+    int current_frame = 0;
+    int tick_counter = 0;
+    bool is_finished = false;
+  };
+
   Animation() = default;
 
   // Configurable constructor for flexible spritesheet layouts
@@ -28,6 +35,10 @@ public:
 
   // Query if a non-looping animation has reached its final frame
   bool isFinished() const;
+
+  // Snapshot methods for time rewind
+  State getState() const;
+  void setState(const State& state);
 
 private:
   int m_start_x;
