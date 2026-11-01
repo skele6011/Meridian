@@ -2,8 +2,8 @@
 
 Level1::Level1() {
   // Add Level 1 specific solids
-  m_solids.push_back({0.0f, 900.0f, 1920.0f, 180.0f});
-  m_solids.push_back({400.0f, 700.0f, 200.0f, 200.0f});
+  m_solids.push_back({0.0f, 152.0f, 320.0f, 28.0f});
+  m_solids.push_back({64.0f, 120.0f, 32.0f, 32.0f});
 }
 
 void Level1::render(Window& window) {

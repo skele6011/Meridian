@@ -1,5 +1,6 @@
 #include "Window.hpp"
 #include "SDL_render.h"
+#include "SDL_video.h"
 #include <iostream>
 
 Window::Window(const std::string& title, int width, int height) {
@@ -9,9 +10,9 @@ Window::Window(const std::string& title, int width, int height) {
     return;
   }
 
-  m_window =
-      SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
-                       SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
+  m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
+                              SDL_WINDOWPOS_CENTERED, width, height,
+                              SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
   if (!m_window) {
     std::cerr << "Failed to create window: " << SDL_GetError() << std::endl;
@@ -29,7 +30,8 @@ Window::Window(const std::string& title, int width, int height) {
   }
 
   // Force an aspect ratio
-  SDL_RenderSetLogicalSize(m_renderer, 1920, 1080);
+  SDL_RenderSetLogicalSize(m_renderer, 320, 180);
+  SDL_RenderSetIntegerScale(m_renderer, SDL_TRUE); // Only whole-number scaling
 }
 
 Window::~Window() {

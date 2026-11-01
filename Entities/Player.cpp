@@ -4,12 +4,9 @@
 
 Player::Player(float start_x, float start_y, float width, float height)
     : m_bounds{start_x, start_y, width, height}, m_vx(0.0f), m_vy(0.0f),
-      m_frame_width(8), m_frame_height(16), m_scale(5.0f), m_is_grounded(false),
+      m_frame_width(8), m_frame_height(16), m_scale(1.0f), m_is_grounded(false),
       m_current_state(PlayerState::Idle), m_previous_state(PlayerState::Idle),
       m_facing_right(true) {
-  // Scale up physical bounds
-  m_bounds.width = m_bounds.width * m_scale;
-  m_bounds.height = m_bounds.height * m_scale;
 
   // Initialize state animations. It's weird right now, changes with a stable
   // sprite which is yet to exist
@@ -35,7 +32,7 @@ void Player::update(double dt, const Input& input,
   float dt_f = static_cast<float>(dt); // Because Rect using floats
 
   // 1. Horizontal input
-  float move_speed = 300.0f;
+  float move_speed = 50.0f;
   m_vx = 0.0f;
 
   if (input.isHeld(SDL_SCANCODE_A)) {
@@ -49,12 +46,12 @@ void Player::update(double dt, const Input& input,
 
   // 2. Handle jump input (Should add buffer time)
   if (input.isPressed(SDL_SCANCODE_W) && m_is_grounded) {
-    m_vy = -1000.0f;
+    m_vy = -110.0f;
     m_is_grounded = false;
   }
 
   // 3. Gravity
-  float gravity = 900.0f;
+  float gravity = 150.0f;
   m_vy += gravity * dt_f;
 
   // 4. X-Axis movement & Collision
