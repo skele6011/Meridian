@@ -12,15 +12,15 @@ Player::Player(float start_x, float start_y, float width, float height)
   // sprite which is yet to exist
   // Idle: 4 frames, 64x16 cells starting at the sheet's left edge
   m_animations[PlayerState::Idle] =
-      Animation(0, 0, 64, 16, 4, 10, true, SheetLayout::Horizontal);
+      Animation(0, 0, 64, 16, 4, 20, true, SheetLayout::Horizontal);
 
   // Running: 4 frames
   m_animations[PlayerState::Running] =
-      Animation(256, 0, 64, 16, 4, 6, true, SheetLayout::Horizontal);
+      Animation(256, 0, 64, 16, 4, 12, true, SheetLayout::Horizontal);
 
   // Jumping: single frame
   m_animations[PlayerState::Jumping] =
-      Animation(512, 0, 64, 16, 1, 10, false, SheetLayout::Horizontal);
+      Animation(512, 0, 64, 16, 1, 20, false, SheetLayout::Horizontal);
 
   // Falling: 2 frames (see note below)
   m_animations[PlayerState::Falling] =
@@ -86,7 +86,9 @@ void Player::update(double dt, const Input& input,
   // 6. Determine animation state based on movement & grounded flags
   PlayerState target_state = PlayerState::Idle;
   if (!m_is_grounded) {
-    target_state = (m_vy < 0.0f) ? PlayerState::Jumping : PlayerState::Falling;
+    // 0.0f --> -30.0f for tests
+    target_state =
+        (m_vy < -30.0f) ? PlayerState::Jumping : PlayerState::Falling;
   } else if (m_vx != 0.0f) {
     target_state = PlayerState::Running;
   } else {
@@ -120,10 +122,10 @@ void Player::render(Window& window, Texture& spriteSheet) {
                        &player_src_rect, m_scale, flip);
 
   // Hitbox stuff
-  SDL_SetRenderDrawColor(window.getRenderer(), 255, 0, 0, 255);
-  SDL_Rect hb{(int)m_bounds.x, (int)m_bounds.y, (int)m_bounds.width,
-              (int)m_bounds.height};
-  SDL_RenderDrawRect(window.getRenderer(), &hb);
+  // SDL_SetRenderDrawColor(window.getRenderer(), 255, 0, 0, 255);
+  // SDL_Rect hb{(int)m_bounds.x, (int)m_bounds.y, (int)m_bounds.width,
+  //             (int)m_bounds.height};
+  // SDL_RenderDrawRect(window.getRenderer(), &hb);
 }
 
 void Player::changeState(PlayerState new_state) {
