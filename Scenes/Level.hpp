@@ -43,4 +43,6 @@ protected:
 
   // Shared player texture (1 player, so own by base class (this one))
   Texture m_player_texture;
+
+  virtual void renderBackground(Window& window) {}
 };

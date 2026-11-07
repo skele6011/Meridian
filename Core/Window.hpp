@@ -20,6 +20,7 @@ public:
   int getWidth() const { return m_width; }
   int getHeight() const { return m_height; }
   SDL_Renderer* getRenderer() const { return m_renderer; }
+  SDL_Window* getWindow() const { return m_window; }
 
 private:
   SDL_Window* m_window = nullptr;

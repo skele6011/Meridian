@@ -32,6 +32,16 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(SDL2_image)
 
+# nlohmann json 
+FetchContent_Declare(
+  json 
+  GIT_REPOSITORY https://github.com/nlohmann/json.git
+  GIT_TAG v3.11.3
+  GIT_SHALLOW TRUE
+)
+FetchContent_MakeAvailable(json)
+
+
 # [Must understand] - Defines your executable and lists your source files
 add_executable(Meridian 
     main.cpp
@@ -45,6 +55,7 @@ add_executable(Meridian
     Scenes/Level.cpp
     Entities/Player.cpp
     Graphics/Animation.cpp
+    Utils/LDtkParser.cpp
 )
 
 # [Must understand] - Links the automatically downloaded SDL2 library to your game
@@ -52,4 +63,5 @@ target_link_libraries(Meridian PRIVATE
   SDL2::SDL2
   SDL2::SDL2main 
   SDL2_image::SDL2_image
+  nlohmann_json::nlohmann_json
 )
