@@ -30,7 +30,9 @@ public:
 
 protected:
   // Shared player & physics state
-  Player m_player{100.0f, 100.0f, 8.0f, 16.0f};
+  SDL_Point m_spawn{100, 100};
+  Player m_player{static_cast<float>(m_spawn.x), static_cast<float>(m_spawn.y),
+                  8.0f, 16.0f};
 
   // Time rewind history buffer
   std::deque<PlayerSnapshot> m_player_history;

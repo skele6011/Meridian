@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SDL2/SDL.h>
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
@@ -11,6 +12,8 @@ public:
   void loadLevel(const std::string& filepath, const std::string& level_name);
 
   std::vector<Rect> loadSolids();
+
+  SDL_Point getSpawnPoint();
 
 private:
   nlohmann::json m_data;

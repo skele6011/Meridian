@@ -68,11 +68,45 @@ std::vector<Rect> LDtkParser::loadSolids() {
     int y = i / 80;
     y = y * 8;
 
-    // If our cell isn't an empty tile
+    // If our cell isn't an empty tile, we will add it
     if (cell != 0) {
       solids.push_back(
           {static_cast<float>(x), static_cast<float>(y), 8.0f, 8.0f});
     }
   }
   return solids;
+}
+
+SDL_Point LDtkParser::getSpawnPoint() {
+  nlohmann::json entities; // Holds json at entities point for easier use
+  // Go through layerInstances in Level and find entities layer
+  bool found = false;
+  for (auto& layer : m_level["layerInstances"]) {
+    if (layer["__identifier"] == "Entities") {
+      entities = layer;
+      found = true;
+      break;
+    }
+  }
+  if (!found) {
+    std::cerr << "Entities layer not found\n";
+    return {};
+  }
+
+  // Go through to find Player_Start (used for spawn point) and put them in our
+  // variable
+  SDL_Point spawnPoint;
+  for (auto& entity : entities["entityInstances"]) {
+    if (entity["__identifier"] == "Player_Start") {
+      spawnPoint.x = entity["px"][0];
+      spawnPoint.y = entity["px"][1];
+    }
+  }
+
+  // Do some maths to go from grid to pixels
+  // spawnPoint.x = (spawnPoint.x * 2) * 8;
+  // spawnPoint.y = (spawnPoint.y * 2) * 8;
+
+  std::cout << spawnPoint.x << ", " << spawnPoint.y << "<-- Spawn point";
+  return spawnPoint;
 }

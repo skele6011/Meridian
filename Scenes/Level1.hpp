@@ -11,5 +11,5 @@ public:
   void render(Window& window) override;
 
 private:
-  LDtkParser m_level;
+  LDtkParser m_parser;
 };

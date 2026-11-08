@@ -3,10 +3,16 @@
 #include <iostream>
 
 Level1::Level1() {
-  // Test
-  m_level.loadLevel("../assets/practice_1.ldtk", "Level_0");
 
-  std::vector<Rect> solids = m_level.loadSolids();
+  // Test
+  m_parser.loadLevel("../assets/practice_1.ldtk", "Level_0");
+
+  // Spawn point of player
+  m_spawn = m_parser.getSpawnPoint();
+  m_player = {static_cast<float>(m_spawn.x), static_cast<float>(m_spawn.y),
+              8.0f, 16.0f};
+
+  std::vector<Rect> solids = m_parser.loadSolids();
   std::cout << "Solids: " << solids.size() << "\n";
   std::cout << solids[0].x << ", " << solids[0].y << "\n";
 
