@@ -45,7 +45,7 @@ void Level::render(Window& window) {
   SDL_RenderClear(window.getRenderer());
 
   // Player
-  std::cout << "Rendering player at X: " << m_player.getX()
-            << " Y: " << m_player.getY() << std::endl;
+  // std::cout << "Rendering player at X: " << m_player.getX()
+  //           << " Y: " << m_player.getY() << std::endl;
   m_player.render(window, m_player_texture);
 }

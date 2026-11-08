@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include <vector>
 
 void LDtkParser::loadLevel(const std::string& filepath,
                            const std::string& level_name) {
@@ -107,6 +108,40 @@ SDL_Point LDtkParser::getSpawnPoint() {
   // spawnPoint.x = (spawnPoint.x * 2) * 8;
   // spawnPoint.y = (spawnPoint.y * 2) * 8;
 
-  std::cout << spawnPoint.x << ", " << spawnPoint.y << "<-- Spawn point";
   return spawnPoint;
+}
+
+std::vector<RenderTile> LDtkParser::loadTiles() {
+  nlohmann::json tile_list; // Holds the autoLayerTiles list
+
+  // Find the collision layer
+  bool found = false;
+  for (auto& layer : m_level["layerInstances"]) {
+    if (layer["__identifier"] == "Collision") {
+      tile_list = layer["autoLayerTiles"]; // The list itself
+      found = true;
+      break;
+    }
+  }
+  if (!found) {
+    std::cerr << "Collision layer not found\n";
+    return {};
+  }
+
+  std::vector<RenderTile> tiles; // What will be returned
+  for (auto& tile : tile_list) {
+    int px_x = tile["px"][0]; // Where in the level
+    int px_y = tile["px"][1];
+    int src_x = tile["src"][0];
+    int src_y = tile["src"][1];
+    int flip = tile["f"];
+
+    RenderTile t;
+    t.x = px_x;
+    t.y = px_y;
+    t.src_rect = {src_x, src_y, 8, 8}; // x, y, width, height
+    t.flip = flip;
+    tiles.push_back(t);
+  }
+  return tiles;
 }

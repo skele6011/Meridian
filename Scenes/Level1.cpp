@@ -12,13 +12,15 @@ Level1::Level1() {
   m_player = {static_cast<float>(m_spawn.x), static_cast<float>(m_spawn.y),
               8.0f, 16.0f};
 
+  // Collision solids
   std::vector<Rect> solids = m_parser.loadSolids();
-  std::cout << "Solids: " << solids.size() << "\n";
-  std::cout << solids[0].x << ", " << solids[0].y << "\n";
-
   for (auto& cell : solids) {
     m_solids.push_back(cell);
   }
+
+  // Visual tiles for collision
+  std::vector<RenderTile> tiles = m_parser.loadTiles();
+  std::cout << "Tiles: " << tiles.size() << "\n";
 }
 
 void Level1::render(Window& window) {
