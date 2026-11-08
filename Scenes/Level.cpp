@@ -44,9 +44,6 @@ void Level::render(Window& window) {
   SDL_SetRenderDrawColor(window.getRenderer(), 137, 180, 250, 255);
   SDL_RenderClear(window.getRenderer());
 
-  // Level-specific background
-  renderBackground(window);
-
   // Player
   // std::cout << "Rendering player at X: " << m_player.getX()
   //           << " Y: " << m_player.getY() << std::endl;

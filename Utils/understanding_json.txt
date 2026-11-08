@@ -1,0 +1,8 @@
+root
+└── "levels"                    ← array of rooms (you have 1: "Level_0")
+    └── [0]
+        ├── "pxWid": 640, "pxHei": 320
+        └── "layerInstances"    ← array of layers
+            ├── [0] "Entities"   → "entityInstances" (Player_Start lives here)
+            ├── [1] "Collision"  → "intGridCsv" (the solid tiles)
+            └── [2] "AutoLayer"  → "autoLayerTiles" (background art)
