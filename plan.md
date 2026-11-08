@@ -53,7 +53,7 @@
   - Draw them with the tileset texture, applying horizontal/vertical flips.
   - Remove the red debug outlines once the art matches the collision.
 
-- [ ] **Step 6: Camera**
+- [x] **Step 6: Camera**
   - Offset all drawing by a camera position that follows the player.
   - Clamp the camera to the level's pixel width and height so it never shows outside the map.
 
