@@ -18,16 +18,10 @@ Level1::Level1() {
 
   // Collision solids
   std::vector<Rect> solids = m_parser.loadSolids();
-  for (auto& cell : solids) {
-    m_solids.push_back(cell);
-  }
 
   // Visual tiles for collision
   std::vector<RenderTile> tiles = m_parser.loadTiles("Collision");
   std::cout << "Tiles: " << tiles.size() << "\n";
-  for (auto& tile : tiles) {
-    m_tiles.push_back(tile);
-  }
 }
 
 void Level1::render(Window& window) {
