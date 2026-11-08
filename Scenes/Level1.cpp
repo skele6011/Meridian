@@ -23,7 +23,7 @@ Level1::Level1() {
   }
 
   // Visual tiles for collision
-  std::vector<RenderTile> tiles = m_parser.loadTiles();
+  std::vector<RenderTile> tiles = m_parser.loadTiles("Collision");
   std::cout << "Tiles: " << tiles.size() << "\n";
   for (auto& tile : tiles) {
     m_tiles.push_back(tile);

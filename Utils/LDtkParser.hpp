@@ -21,7 +21,7 @@ public:
 
   SDL_Point getSpawnPoint();
 
-  std::vector<RenderTile> loadTiles();
+  std::vector<RenderTile> loadTiles(const std::string& layer_name);
 
   // Getters
   int getLevelHeight() { return m_level_height; }
@@ -30,6 +30,9 @@ public:
 private:
   nlohmann::json m_data;
   nlohmann::json m_level;
-  int m_level_width;
-  int m_level_height;
+  int m_level_width = 0;
+  int m_level_height = 0;
+
+  // Helper
+  nlohmann::json findLayer(const std::string& name);
 };

@@ -42,21 +42,31 @@ void LDtkParser::loadLevel(const std::string& filepath,
   m_level_height = m_level["pxHei"];
 }
 
-std::vector<Rect> LDtkParser::loadSolids() {
-  nlohmann::json csv; // Holds the integer grid csv
-  // Go through layerInstances in Level and find collision
+nlohmann::json LDtkParser::findLayer(const std::string& name) {
+  nlohmann::json returned_layer;
   bool found = false;
   for (auto& layer : m_level["layerInstances"]) {
-    if (layer["__identifier"] == "Collision") {
-      csv = layer["intGridCsv"];
+    if (layer["__identifier"] == name) {
+      returned_layer = layer;
       found = true;
       break;
     }
   }
+
   if (!found) {
-    std::cerr << "Collision layer not found\n";
+    std::cerr << name << " layer not found\n";
     return {};
   }
+
+  return returned_layer;
+}
+
+std::vector<Rect> LDtkParser::loadSolids() {
+  nlohmann::json csv; // Holds the integer grid csv
+  nlohmann::json layer = this->findLayer("Collision");
+  if (layer.is_null())
+    return {};
+  csv = layer["intGridCsv"];
 
   std::vector<Rect> solids; // What will be returned
   // Loop through the grid and adds the tiles
@@ -79,24 +89,14 @@ std::vector<Rect> LDtkParser::loadSolids() {
 }
 
 SDL_Point LDtkParser::getSpawnPoint() {
-  nlohmann::json entities; // Holds json at entities point for easier use
-  // Go through layerInstances in Level and find entities layer
-  bool found = false;
-  for (auto& layer : m_level["layerInstances"]) {
-    if (layer["__identifier"] == "Entities") {
-      entities = layer;
-      found = true;
-      break;
-    }
-  }
-  if (!found) {
-    std::cerr << "Entities layer not found\n";
+  // Holds json at layer entities point for easier use
+  nlohmann::json entities = this->findLayer("Entities");
+  if (entities.is_null())
     return {};
-  }
 
   // Go through to find Player_Start (used for spawn point) and put them in our
   // variable
-  SDL_Point spawnPoint;
+  SDL_Point spawnPoint{100, 100};
   for (auto& entity : entities["entityInstances"]) {
     if (entity["__identifier"] == "Player_Start") {
       spawnPoint.x = entity["px"][0];
@@ -104,29 +104,16 @@ SDL_Point LDtkParser::getSpawnPoint() {
     }
   }
 
-  // Do some maths to go from grid to pixels
-  // spawnPoint.x = (spawnPoint.x * 2) * 8;
-  // spawnPoint.y = (spawnPoint.y * 2) * 8;
-
   return spawnPoint;
 }
 
-std::vector<RenderTile> LDtkParser::loadTiles() {
+std::vector<RenderTile> LDtkParser::loadTiles(const std::string& layer_name) {
   nlohmann::json tile_list; // Holds the autoLayerTiles list
 
-  // Find the collision layer
-  bool found = false;
-  for (auto& layer : m_level["layerInstances"]) {
-    if (layer["__identifier"] == "Collision") {
-      tile_list = layer["autoLayerTiles"]; // The list itself
-      found = true;
-      break;
-    }
-  }
-  if (!found) {
-    std::cerr << "Collision layer not found\n";
+  nlohmann::json layer = this->findLayer(layer_name);
+  if (layer.is_null())
     return {};
-  }
+  tile_list = layer["autoLayerTiles"];
 
   std::vector<RenderTile> tiles; // What will be returned
   for (auto& tile : tile_list) {
