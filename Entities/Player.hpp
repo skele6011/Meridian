@@ -29,7 +29,8 @@ public:
 
   // Core update and render loop functions
   void update(double dt, const Input& input, const std::vector<Rect>& solids);
-  void render(Window& window, Texture& spriteSheet);
+  void render(Window& window, Texture& spriteSheet, float camera_x,
+              float camera_y);
 
   // Getters for position and boundaries
   Rect getBoundingBox() const;

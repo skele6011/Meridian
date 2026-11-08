@@ -102,7 +102,8 @@ void Player::update(double dt, const Input& input,
   m_animations[m_current_state].update();
 }
 
-void Player::render(Window& window, Texture& spriteSheet) {
+void Player::render(Window& window, Texture& spriteSheet, float camera_x,
+                    float camera_y) {
   // Grab source rect from active animation
   SDL_Rect player_src_rect =
       m_animations[m_current_state].getCurrentFrameRect();
@@ -116,12 +117,16 @@ void Player::render(Window& window, Texture& spriteSheet) {
   int padding_y =
       static_cast<int>(((player_src_rect.h - m_frame_height) / 2.0f) * m_scale);
 
+  // [bounds] - [padding]. What would be rendered without camera
+  int render_value_x = static_cast<int>(m_bounds.x) - padding_x;
+  int render_value_y = static_cast<int>(m_bounds.y) - padding_y;
+
   spriteSheet.renderEx(window.getRenderer(),
-                       static_cast<int>(m_bounds.x) - padding_x,
-                       static_cast<int>(m_bounds.y) - padding_y,
+                       render_value_x - static_cast<int>(camera_x),
+                       render_value_y - static_cast<int>(camera_y),
                        &player_src_rect, m_scale, flip);
 
-  // Hitbox stuff
+  // Hitbox stuff -- Broken rn
   // SDL_SetRenderDrawColor(window.getRenderer(), 255, 0, 0, 255);
   // SDL_Rect hb{(int)m_bounds.x, (int)m_bounds.y, (int)m_bounds.width,
   //             (int)m_bounds.height};

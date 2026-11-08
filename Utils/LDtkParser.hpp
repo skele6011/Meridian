@@ -23,6 +23,10 @@ public:
 
   std::vector<RenderTile> loadTiles();
 
+  // Getters
+  int getLevelHeight() { return m_level_height; }
+  int getLevelWidth() { return m_level_width; }
+
 private:
   nlohmann::json m_data;
   nlohmann::json m_level;

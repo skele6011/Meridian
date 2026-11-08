@@ -50,4 +50,11 @@ protected:
 
   // Tileset texture
   Texture m_tileset_texture;
+
+  // Camera out for rendering
+  float m_camera_x;
+  float m_camera_y;
+
+  int m_level_width = 320;
+  int m_level_height = 180;
 };

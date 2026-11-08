@@ -12,6 +12,10 @@ Level1::Level1() {
   m_player = {static_cast<float>(m_spawn.x), static_cast<float>(m_spawn.y),
               8.0f, 16.0f};
 
+  // Fill sizes
+  m_level_width = m_parser.getLevelWidth();
+  m_level_height = m_parser.getLevelHeight();
+
   // Collision solids
   std::vector<Rect> solids = m_parser.loadSolids();
   for (auto& cell : solids) {

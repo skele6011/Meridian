@@ -1,6 +1,8 @@
 #include "Level.hpp"
 #include "SDL_render.h"
 #include "SDL_scancode.h"
+
+#include <algorithm>
 #include <iostream>
 
 // Everything here is everything that should be in EVERY level, if loading
@@ -37,6 +39,16 @@ void Level::update(double fixed_dt, const Input& input) {
 
   // Normal player update
   m_player.update(fixed_dt, input, m_solids);
+
+  // Set camera so player is centered
+  m_camera_x = m_player.getX() - (320.0f / 2);
+  m_camera_y = m_player.getY() - (180.0f / 2);
+
+  float max_camera_x = static_cast<float>(m_level_width) - 320;
+  m_camera_x = std::clamp(m_camera_x, 0.0f, max_camera_x);
+
+  float max_camera_y = static_cast<float>(m_level_height) - 180;
+  m_camera_y = std::clamp(m_camera_y, 0.0f, max_camera_y);
 }
 
 //
@@ -49,13 +61,14 @@ void Level::render(Window& window) {
 
   // Tile visuals
   for (const auto& tile : m_tiles) {
-    m_tileset_texture.renderEx(window.getRenderer(), tile.x, tile.y,
-                               &tile.src_rect, 1.0f,
-                               static_cast<SDL_RendererFlip>(tile.flip));
+    m_tileset_texture.renderEx(
+        window.getRenderer(), tile.x - static_cast<int>(m_camera_x),
+        tile.y - static_cast<int>(m_camera_y), &tile.src_rect, 1.0f,
+        static_cast<SDL_RendererFlip>(tile.flip));
   }
 
   // Player
   // std::cout << "Rendering player at X: " << m_player.getX()
   //           << " Y: " << m_player.getY() << std::endl;
-  m_player.render(window, m_player_texture);
+  m_player.render(window, m_player_texture, m_camera_x, m_camera_y);
 }
