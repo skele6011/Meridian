@@ -43,7 +43,7 @@
 - [x] **Step 3: Dedicated Player Class Refactor**
   - Extract player state, dimensions, and movement variables into a dedicated `Player` class now that final art assets and sizes are established.
 
-- [ ] **Step 4: Player Spawn from Map Data** 
+- [x] **Step 4: Player Spawn from Map Data** 
   - Read the `Player_Start` entity from the Entities layer and store its position in the parser.
   - Replace the hardcoded (100, 100) player position in `Level1` with the parsed spawn point.
 
