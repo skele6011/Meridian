@@ -47,7 +47,7 @@
   - Read the `Player_Start` entity from the Entities layer and store its position in the parser.
   - Replace the hardcoded (100, 100) player position in `Level1` with the parsed spawn point.
 
-- [ ] **Step 5: Tile Texture Rendering (Collision Layer Art)**
+- [x] **Step 5: Tile Texture Rendering (Collision Layer Art)**
   - Read the `autoLayerTiles` list from the Collision layer (pixel position, tileset source position, flip value).
   - Store the tiles in a visual-only list, separate from `m_solids`.
   - Draw them with the tileset texture, applying horizontal/vertical flips.
