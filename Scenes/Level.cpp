@@ -27,6 +27,7 @@ void Level::update(double fixed_dt, const Input& input) {
     m_player.restore(latest);
 
     // Skip normal update physics so time flows backwards
+    updateCamera();
     return;
   }
 
@@ -39,16 +40,7 @@ void Level::update(double fixed_dt, const Input& input) {
 
   // Normal player update
   m_player.update(fixed_dt, input, m_solids);
-
-  // Set camera so player is centered
-  m_camera_x = m_player.getX() - (320.0f / 2);
-  m_camera_y = m_player.getY() - (180.0f / 2);
-
-  float max_camera_x = static_cast<float>(m_level_width) - 320;
-  m_camera_x = std::clamp(m_camera_x, 0.0f, max_camera_x);
-
-  float max_camera_y = static_cast<float>(m_level_height) - 180;
-  m_camera_y = std::clamp(m_camera_y, 0.0f, max_camera_y);
+  updateCamera();
 }
 
 //
@@ -71,4 +63,20 @@ void Level::render(Window& window) {
   // std::cout << "Rendering player at X: " << m_player.getX()
   //           << " Y: " << m_player.getY() << std::endl;
   m_player.render(window, m_player_texture, m_camera_x, m_camera_y);
+}
+
+void Level::updateCamera() {
+  const float screen_w = 320.0f;
+  const float screen_h = 180.0f;
+
+  // Center on the player (+ half the player's size so it's the middle, not the
+  // left edge)
+  m_camera_x = m_player.getX() + 4.0f - screen_w / 2.0f;
+  m_camera_y = m_player.getY() + 8.0f - screen_h / 2.0f;
+
+  // Clamp so we never show outside the map
+  float max_x = static_cast<float>(m_level_width) - screen_w;
+  float max_y = static_cast<float>(m_level_height) - screen_h;
+  m_camera_x = std::clamp(m_camera_x, 0.0f, max_x);
+  m_camera_y = std::clamp(m_camera_y, 0.0f, max_y);
 }
