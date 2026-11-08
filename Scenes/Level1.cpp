@@ -21,6 +21,9 @@ Level1::Level1() {
   // Visual tiles for collision
   std::vector<RenderTile> tiles = m_parser.loadTiles();
   std::cout << "Tiles: " << tiles.size() << "\n";
+  for (auto& tile : tiles) {
+    m_tiles.push_back(tile);
+  }
 }
 
 void Level1::render(Window& window) {
@@ -28,11 +31,12 @@ void Level1::render(Window& window) {
   Level::render(window);
 
   // Draw level 1 specific things (currently solids)
-  SDL_SetRenderDrawColor(window.getRenderer(), 100, 100, 110, 255);
-  for (const auto& solid : m_solids) {
-    SDL_Rect solid_rect = {static_cast<int>(solid.x), static_cast<int>(solid.y),
-                           static_cast<int>(solid.width),
-                           static_cast<int>(solid.height)};
-    SDL_RenderFillRect(window.getRenderer(), &solid_rect);
-  }
+  // SDL_SetRenderDrawColor(window.getRenderer(), 100, 100, 110, 255);
+  // for (const auto& solid : m_solids) {
+  //   SDL_Rect solid_rect = {static_cast<int>(solid.x),
+  //   static_cast<int>(solid.y),
+  //                          static_cast<int>(solid.width),
+  //                          static_cast<int>(solid.height)};
+  //   SDL_RenderFillRect(window.getRenderer(), &solid_rect);
+  // }
 }

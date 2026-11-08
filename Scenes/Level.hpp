@@ -5,6 +5,7 @@
 #include "../Core/Window.hpp"
 #include "../Entities/Player.hpp"
 #include "../Graphics/Texture.hpp"
+#include "../Utils/LDtkParser.hpp"
 
 #include <deque>
 #include <vector>
@@ -42,7 +43,11 @@ protected:
   // Shared level geometry & triggers (pushed by individual levels)
   std::vector<Rect> m_solids;
   std::vector<Trigger> m_triggers;
+  std::vector<RenderTile> m_tiles;
 
   // Shared player texture (1 player, so own by base class (this one))
   Texture m_player_texture;
+
+  // Tileset texture
+  Texture m_tileset_texture;
 };

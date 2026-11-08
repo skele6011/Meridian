@@ -8,6 +8,9 @@
 void Level::loadBaseAssets(SDL_Renderer* renderer) {
   std::cout << "Loading base assets..." << std::endl;
   m_player_texture.loadFromFile("../assets/Player-Sheet.png", renderer);
+
+  // Load tileset here for now
+  m_tileset_texture.loadFromFile("../assets/tiles.png", renderer);
 };
 
 void Level::update(double fixed_dt, const Input& input) {
@@ -43,6 +46,13 @@ void Level::render(Window& window) {
   // Background
   SDL_SetRenderDrawColor(window.getRenderer(), 137, 180, 250, 255);
   SDL_RenderClear(window.getRenderer());
+
+  // Tile visuals
+  for (const auto& tile : m_tiles) {
+    m_tileset_texture.renderEx(window.getRenderer(), tile.x, tile.y,
+                               &tile.src_rect, 1.0f,
+                               static_cast<SDL_RendererFlip>(tile.flip));
+  }
 
   // Player
   // std::cout << "Rendering player at X: " << m_player.getX()
