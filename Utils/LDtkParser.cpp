@@ -68,16 +68,21 @@ std::vector<Rect> LDtkParser::loadSolids() {
     return {};
   csv = layer["intGridCsv"];
 
+  if (layer["__cWid"] == 0 || layer["__gridSize"] == 0) {
+    std::cerr << "Width or grid size is 0\n";
+    return {};
+  }
+
   std::vector<Rect> solids; // What will be returned
   // Loop through the grid and adds the tiles
   for (size_t i = 0; i < csv.size(); ++i) {
     int cell = csv[i]; // The value/type of tile
 
     // Math
-    int x = i % 80;
-    x = x * 8;
-    int y = i / 80;
-    y = y * 8;
+    int x = i % static_cast<int>(layer["__cWid"]);
+    x = x * static_cast<int>(layer["__gridSize"]);
+    int y = i / static_cast<int>(layer["__cWid"]);
+    y = y * static_cast<int>(layer["__gridSize"]);
 
     // If our cell isn't an empty tile, we will add it
     if (cell != 0) {
@@ -89,22 +94,22 @@ std::vector<Rect> LDtkParser::loadSolids() {
 }
 
 SDL_Point LDtkParser::getSpawnPoint() {
+  SDL_Point spawn_point{100, 100};
   // Holds json at layer entities point for easier use
   nlohmann::json entities = this->findLayer("Entities");
   if (entities.is_null())
-    return {};
+    return spawn_point;
 
   // Go through to find Player_Start (used for spawn point) and put them in our
   // variable
-  SDL_Point spawnPoint{100, 100};
   for (auto& entity : entities["entityInstances"]) {
     if (entity["__identifier"] == "Player_Start") {
-      spawnPoint.x = entity["px"][0];
-      spawnPoint.y = entity["px"][1];
+      spawn_point.x = entity["px"][0];
+      spawn_point.y = entity["px"][1];
     }
   }
 
-  return spawnPoint;
+  return spawn_point;
 }
 
 std::vector<RenderTile> LDtkParser::loadTiles(const std::string& layer_name) {
@@ -114,6 +119,8 @@ std::vector<RenderTile> LDtkParser::loadTiles(const std::string& layer_name) {
   if (layer.is_null())
     return {};
   tile_list = layer["autoLayerTiles"];
+
+  int cell_size = layer["__gridSize"];
 
   std::vector<RenderTile> tiles; // What will be returned
   for (auto& tile : tile_list) {
@@ -126,7 +133,7 @@ std::vector<RenderTile> LDtkParser::loadTiles(const std::string& layer_name) {
     RenderTile t;
     t.x = px_x;
     t.y = px_y;
-    t.src_rect = {src_x, src_y, 8, 8}; // x, y, width, height
+    t.src_rect = {src_x, src_y, cell_size, cell_size}; // x, y, width, height
     t.flip = flip;
     tiles.push_back(t);
   }
