@@ -33,15 +33,39 @@
   - Verify asset loading and rendering end-to-end with a temporary test sprite.
 
 ## 4: Map Loading & Architecture Refactoring (Post-Art)
-- [ ] **Step 1: Map Editor Format Selection**
+- [x] **Step 1: Map Editor Format Selection**
   - Choose and configure an external map format (such as Tiled JSON or CSV exports) for level creation.
   - Establish final tile and sprite dimensions.
 
-- [ ] **Step 2: Level Map Parser Implementation**
+- [x] **Step 2: Level Map Parser Implementation**
   - Implement a map parsing utility to read layout data and dynamically generate collision solids (`m_solids`).
 
 - [x] **Step 3: Dedicated Player Class Refactor**
   - Extract player state, dimensions, and movement variables into a dedicated `Player` class now that final art assets and sizes are established.
+
+- [ ] **Step 4: Player Spawn from Map Data** 
+  - Read the `Player_Start` entity from the Entities layer and store its position in the parser.
+  - Replace the hardcoded (100, 100) player position in `Level1` with the parsed spawn point.
+
+- [ ] **Step 5: Tile Texture Rendering (Collision Layer Art)**
+  - Read the `autoLayerTiles` list from the Collision layer (pixel position, tileset source position, flip value).
+  - Store the tiles in a visual-only list, separate from `m_solids`.
+  - Draw them with the tileset texture, applying horizontal/vertical flips.
+  - Remove the red debug outlines once the art matches the collision.
+
+- [ ] **Step 6: Camera**
+  - Offset all drawing by a camera position that follows the player.
+  - Clamp the camera to the level's pixel width and height so it never shows outside the map.
+
+- [ ] **Step 7: Backgrounds**
+  - Read the background `AutoLayer` tiles and draw them behind the Collision tiles.
+  - Decide how it combines with the parallax PNG layers (the AutoLayer's fill tile may cover them).
+  - Draw the parallax layers back to front, with each layer scrolling slower than the camera.
+
+- [ ] **Step 8: Parser Cleanup**
+  - Read the grid size and column count from the JSON (`__gridSize`, `__cWid`) instead of hardcoding 8 and 80.
+  - Pull the repeated "find a layer by name" loop into one helper function.
+  - Remove the duplicate tileset texture in `Level1`.
 
 ## 5: Sprite Animations & States
 - [x] **Step 1: Animation Component / Struct Design**
