@@ -30,10 +30,10 @@ void LDtkParser::loadLevel(const std::string& filepath,
       std::cout << "Level found" << "\n";
       break;
     }
-    if (!found) {
-      std::cerr << "Level not found in JSON: " << level_name << "\n";
-      return;
-    }
+  }
+  if (!found) {
+    std::cerr << "Level not found in JSON: " << level_name << "\n";
+    return;
   }
 
   // Get basic information from that level
