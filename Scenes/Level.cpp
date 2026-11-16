@@ -12,7 +12,7 @@ void Level::loadBaseAssets(SDL_Renderer* renderer) {
   m_player_texture.loadFromFile("../assets/Player-Sheet.png", renderer);
 
   // Load tileset here for now
-  m_tileset_texture.loadFromFile("../assets/tiles.png", renderer);
+  m_tileset_texture.loadFromFile("../assets/celeste_tileset.png", renderer);
 };
 
 void Level::update(double fixed_dt, const Input& input) {

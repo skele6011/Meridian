@@ -31,8 +31,8 @@ void Player::update(double dt, const Input& input,
                     const std::vector<Rect>& solids) {
   float dt_f = static_cast<float>(dt); // Because Rect using floats
 
-  // 1. Horizontal input
-  float move_speed = 50.0f;
+  // 1. Horizontal input  TODO: : Make an accelaration/max speed
+  float move_speed = 80.0f;
   m_vx = 0.0f;
 
   if (input.isHeld(SDL_SCANCODE_A)) {
@@ -44,14 +44,14 @@ void Player::update(double dt, const Input& input,
     m_facing_right = true;
   }
 
-  // 2. Handle jump input (Should add buffer time)
+  // 2. Handle jump input  TODO: : (Should add buffer time)
   if (input.isPressed(SDL_SCANCODE_W) && m_is_grounded) {
-    m_vy = -110.0f;
+    m_vy = -226.5f;
     m_is_grounded = false;
   }
 
   // 3. Gravity
-  float gravity = 150.0f;
+  float gravity = 900.0f;
   m_vy += gravity * dt_f;
 
   // 4. X-Axis movement & Collision

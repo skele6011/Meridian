@@ -16,7 +16,7 @@ void Game::run() {
   }
 
   const double FIXED_DT =
-      1.0 / 120.0; // Might change later or allow for adjusting
+      1.0 / 60.0; // Might change later or allow for adjusting
   double accumulator = 0.0;
 
   Uint64 last_counter = SDL_GetPerformanceCounter();
